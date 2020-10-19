@@ -69,8 +69,9 @@ class NavBar extends Component {
                         <button
                           className=" bg-light border-0"
                           onClick={this.handleShow}
-                        >
-                          Login /SignUp
+                        > <Link to='/auth/login'>
+                          Login/SignUp
+                        </Link>
                         </button>
                     </div>
                   </div>
