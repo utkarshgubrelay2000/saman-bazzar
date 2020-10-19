@@ -88,7 +88,7 @@ class Home extends Component {
           </section>
 
           <section className="category container">
-            <div className=" text-center category_div">
+            <div className="category_div">
               <h4 className="home_category_name">
 Recently added
               </h4>
