@@ -67,7 +67,9 @@ class Home extends Component {
   console.log(this.state.emailvalue)
 
 }
-  render() {
+
+render() {
+  
     return (
       <React.Fragment>
         <div className="container">

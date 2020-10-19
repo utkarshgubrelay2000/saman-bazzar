@@ -117,11 +117,7 @@ Landing page --> section--> category
   background-color: grey;
   height: 35vh;
 }
-.robo_image_ad img {
-  margin: auto;
-  padding-top: 2%;
-  width: 100%;
-}
+
 p {
   font-size: 40%;
 }
@@ -310,3 +306,24 @@ the css in this place stands for modal component only
   margin: 0;
 }
 
+.form-control{
+  width: 80%;
+  display: grid;
+  margin: auto;
+ 
+}
+form{
+  margin: auto;
+  padding: 20px;
+  color: black;
+  font-family: 'Poppins';
+  width: 50%;
+}
+@media (max-width:500px){
+  .form-control{
+    width: 78%;
+  }
+  form{
+    margin-left: 10%;
+  }
+}
