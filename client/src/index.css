@@ -1,0 +1,312 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap");
+
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+body {
+  font-family: "open sans", sans-serif;
+  color: #000;
+  margin: 0;
+}
+ul{
+  list-style-type: none;
+}
+.cta-btn {
+  margin: 2vw;
+  background: black;
+  border-radius: 66px;
+  color: yellow;
+  border: white 4px solid;
+  font-weight: 800;
+  width: 12rem;
+  height: 3rem;
+}
+.cta-btn:hover {
+  border: yellow solid 2px;
+  color: black;
+  background-color: transparent;
+}
+a {
+  color: black;
+  margin: 0;
+  padding: 10px;
+  font-size: 2vh;
+  font-family: "Poppins";
+}
+
+a:hover {
+  font-style: italic;
+  color: rgb(32, 32, 209);
+  text-decoration: none;
+}
+button {
+  font-family: "Poppins";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Montserrat", sans-serif;
+}
+span,
+label {
+  color: black;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+/*--------------------------------------------------------------
+# section ---> Landing page(home.js)
+--------------------------------------------------------------*/
+#hero {
+  padding: 2%;
+}
+
+#hero .home_template_carousel {
+  height: 18rem;
+}
+
+@media (min-width: 768px) {
+  #hero .home_template_carousel {
+    height: 28rem;
+  }
+}
+/*
+Landing page --> section--> category
+*/
+.category .home_category_name {
+  font-family: montserrat;
+  font-weight: 800;
+}
+.category .category_div {
+ 
+  margin: auto;
+  padding: 6vh;
+}
+.category .home_category_viewmore a {
+  margin-top: 0vh;
+  float: right;
+  list-style-type: none;
+  color: yellow;
+}
+.category .home_category_line {
+  width: 71px;
+  height: 0px;
+  border: yellow 4px solid;
+}
+.category .cta-btn {
+  margin: 0;
+  width: 14vw;
+  height: 40px;
+  text-align: center;
+  margin-top: 10px;
+}
+.category .home_category_viewmore a:hover {
+  color: black;
+  font-weight: 600;
+  font-style: normal;
+}
+.category .home_category_viewmore a {
+  font-weight: 700;
+  color: yellow;
+  padding: 0;
+}
+.category .home_div_owl_carousel {
+  background-color: grey;
+  height: 35vh;
+}
+.robo_image_ad img {
+  margin: auto;
+  padding-top: 2%;
+  width: 100%;
+}
+p {
+  font-size: 40%;
+}
+@media (max-width:500px){
+  .category .home_category_line {
+    width: 30px;
+    position: relative;
+    top: 2vw;
+    margin: 5px;
+    
+  }
+}
+@media (max-width: 900px) {
+  .category .category_div {
+    padding: 0;
+    padding-top: 10px;
+  }
+  .category .home_category_name {
+    font-size: 60%;
+  }
+
+  .category .home_category_viewmore a {
+    padding: 0;
+    font-size: 40%;
+  }
+}
+@media (min-width: 768px) {
+  #hero .home_template_carousel {
+    height: 28rem;
+  }
+  .category .home_div_owl_carousel {
+    height: 45vh;
+  }
+}
+
+
+/*     section subcribe ---> Landing page*/
+#home_subcribe .home_div_subcribe {
+
+  justify-content: center;
+  text-align: center;
+  margin-top: 4vh;
+  padding: 3vh;
+}
+#home_subcribe .home_span_Subcribe {
+  font-weight: 800;
+  color: yellow;
+}
+#home_subcribe .cta-btn a{
+  color: yellow;
+}
+#home_subcribe #home_button_subcribe {
+  margin: 2vw;
+  background: #000000;
+  border-radius: 66px;
+  color: white;
+  font-weight: 600;
+  width: 10rem;
+  height: 3rem;
+}
+
+.modal-title {
+  font-weight: 800;
+  font-family: "Open sans";
+}
+
+#modal_email {
+  font-weight: 700;
+}
+
+.fab {
+  font-size: 2vw;
+  margin: 0;
+  color: black;
+}
+/* Footer section ---> footer*/
+#hero_footer {
+  margin: auto 2%;
+}
+#hero_footer .footer_logo_div {
+  display: none;
+}
+
+#hero_footer .footer-categories {
+  flex: 0 0 0;
+  position: relative;
+  left: -10%;
+}
+@media (min-width: 968px) {
+  #hero_footer .footer_logo_div {
+    display: inline;
+  }
+  #hero_footer .footer-categories {
+    flex: 0 0 25%;
+
+    text-align: center;
+  }
+
+  #hero_footer .footer_logo_div img {
+    width: 6vw;
+    height: 5vw;
+  }
+}
+#Home_Div_Footer {
+  border: yellow 3px solid;
+  margin-top: 2vw;
+  padding: 3vh;
+}
+#hero_footer .footer-span-categories {
+  font-size: 1.5vw;
+}
+#hero_footer .footer_link {
+  font-size: 1vw;
+  padding: 0;
+  font-weight: 600;
+  font-family: "Poppins";
+  position: relative;
+  left: -10%;
+}
+#hero_footer .footer_link:hover {
+  font-size: 2vh;
+  font-style: normal;
+}
+/*
+          ---> navigation bar
+*/
+
+#hero_nav #navbar_customercare {
+  margin-top: -3%;
+}
+#hero_nav #navbar_customercare a {
+  font-size: 10px;
+  margin-top: -20px;
+  font-weight: 600;
+  font-family: "Poppins";
+}
+#hero_nav .navbar_ManarchLogo {
+  width: "7vw";
+  height: "6vw";
+}
+#hero_nav .navbar_ManarchLogo img {
+  margin-left: 20px;
+}
+#hero_nav .fas {
+  margin: 2%;
+  font-size: 1.2rem;
+}
+#hero_nav .navbar_Icons {
+  display: flex;
+}
+#hero_nav .navbar_span_with_icons {
+  display: none;
+}
+@media only screen and (max-width: 968px) {
+  #hero_nav .navbar_Icons {
+    display: none;
+  }
+  #hero_nav .fas {
+    font-size: 1rem;
+    padding: 2%;
+  }
+  #hero_nav .navbar_span_with_icons {
+    display: grid;
+  }
+}
+/*
+section Auth--. Auth.js(views/Auth/auth.js).....(Modal component)
+the css in this place stands for modal component only
+*/
+.modal-content {
+  background: white;
+  padding: 3%;
+}
+.modal-header {
+  text-align: left;
+}
+
+.modal-footer {
+  text-align: left;
+}
+.modal-footer .cta-btn {
+  background-color: white;
+  color: black;
+  border: none;
+  width: 8vw;
+  margin: 0;
+}
+
