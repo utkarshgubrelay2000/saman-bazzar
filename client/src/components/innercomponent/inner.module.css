@@ -1,0 +1,86 @@
+span{
+  font-family: 'Barlow', sans-serif;
+  font-size: 1.5vw;
+}
+mark{
+  background-color: #b3cdd1;
+  background-image: linear-gradient(315deg, #b3cdd1 0%, #9fa4c4 74%);
+
+}
+hr{
+  color:black;
+}
+img{
+  height:85vh;
+
+}
+.color{
+  display:inline-block;
+}
+li{
+  display:inline-block;
+  position:relative;
+  height:3vh;
+  width:2vw;
+  margin-left:0.5vw;
+}
+body{
+   user-select: none;
+}
+.whatapplink{
+  display:block;
+}
+h6{
+  font-size: 1.5vw;
+}
+h5{
+  font-size:1.5vw;
+}
+
+
+@media only screen and (max-width: 320px) {
+  .cardwidth{
+    width:90vw !important;
+   
+    
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .cardwidth{
+    width:97vw !important;
+    
+  }
+}
+@media only screen and (min-width: 425px) {
+  .cardwidth{
+    width:97vw !important;
+    
+  }
+}
+@media only screen and (min-width:768px) {
+ .cardwidth{
+    width:90vw !important;
+    
+  }
+
+}
+@media only screen and (min-width: 1024px) {
+   .cardwidth{
+    width:22vw !important;
+   
+  }
+
+}
+@media only screen and (min-width: 1440px) {
+   .cardwidth{
+    width:23vw !important;
+  }
+}
+
+@media only screen and (min-width: 2560px) {
+ .cardwidth{
+    width:97vw !important;
+   
+  }
+}

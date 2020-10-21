@@ -1,0 +1,65 @@
+.imgheight{
+  height: 40vh;
+}
+.link{
+  display: block;
+}
+.mobileh6{
+  display: inline-block;
+  font-size: 2vw;
+}
+h6{
+  font-size:1.1vw;
+}
+.spantext{
+  font-size: 2vw;
+}
+
+
+@media only screen and (max-width: 520px) {
+  .cardswidth{
+    width:99vw !important;
+  }
+  .mobileh6{
+    font-size: 3vw;
+  }
+  .spantext{
+    font-size: 3vw;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .cardswidth{
+    width:90vw !important;
+    
+  }
+}
+@media only screen and (min-width: 425px) {
+  .cardswidth{
+    width:95vw !important;
+  }
+}
+@media only screen and (min-width:768px) {
+ .cardswidth{
+    width:45vw !important;
+    
+  }
+
+}
+@media only screen and (min-width: 1024px) {
+  .cardswidth{
+    width:30vw !important; 
+  }
+
+}
+@media only screen and (min-width: 1440px) {
+  .cardswidth{
+    width:20vw !important;
+  }
+}
+
+@media only screen and (min-width: 2560px) {
+.cardswidth{
+    width:17vw !important;
+  }
+}

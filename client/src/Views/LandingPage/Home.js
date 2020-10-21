@@ -2,11 +2,9 @@ import React, { Component } from "react";
 import image from "../../assets/Images/image1-01.png";
 import image1 from "../../assets/Images/imag3-01.png";
 import image2 from "../../assets/Images/image2.png";
-
-import { Carousel } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Footer from "../../components/footer/footer";
-
+import Main from '../../components/landingpage/main.jsx';
 class Home extends Component {
   // Images are Taken in state so that they can we fetched from backend...
   state = {
@@ -27,7 +25,6 @@ class Home extends Component {
     },
     isOpen: false,
   };
-
   handleSelect = (selectedIndex, e) => {
     this.setState({
       index: selectedIndex,
@@ -73,67 +70,9 @@ render() {
     return (
       <React.Fragment>
         <div className="container">
-          <section id="hero">
-            <Carousel activeIndex={this.index} onSelect={this.handleSelect}>
-              {this.state.Images.map((i, index) => {
-                return (
-                  <Carousel.Item key={index}>
-                    <img
-                      className="d-block w-100 home_template_carousel"
-                      src={i.url}
-                      alt="First slide"
-                    />
-                  </Carousel.Item>
-                );
-              })}
-            </Carousel>
-          </section>
-
-          <section className="category container">
-            <div className="category_div">
-              <h4 className="home_category_name">
-Recently added
-              </h4>
-            </div>
-            <div className="row">
-              <div className="col-12 text-center  home_div_owl_carousel">
-              </div>
-              <div className="col-12">
-                <ul className="home_category_viewmore">
-                  <li>
-                    
-                      <Link to="/category/">View more</Link>
-    
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
-      
-
-          <section className="category container">
-            <div className="category_div">
-              <h4 className="home_category_name">
-Top Rated
-              </h4>
-            </div>
-            <div className="row">
-              <div className="col-12 text-center  home_div_owl_carousel">
-    
-              </div>
-              <div className="col-12">
-                <ul className="home_category_viewmore">
-                  <li>
-                    
-                      <Link to="/category/Shirts" >View more</Link>
-    
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
+        <section id="hero">
+          <Main/>
+        </section>
           <section id="home_subcribe" className="container">
             <div className="home_div_subcribe">
               <span>

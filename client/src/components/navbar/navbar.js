@@ -13,8 +13,8 @@ class NavBar extends Component {
   handleShow = (e) => {
     this.setState({ show: true });
   };
- 
   render() {
+  const token=localStorage.getItem("verficationuserId");
     return (
       <React.Fragment>
         <div className="container">
@@ -42,7 +42,7 @@ class NavBar extends Component {
               >
                 <div className="col-12 col-lg-9 text-center">
                   <div className="navbar_ManarchLogo">
-                    <img src={MonarchLogo} style={{width:'7vw'}} alt="" className="" />
+                    <img src={MonarchLogo} style={{width:'7vw',height:'6vw'}} alt="" className="" />
                   </div>
                 </div>
                 <div className="col-3 text-center navbar_Icons">
@@ -59,7 +59,23 @@ class NavBar extends Component {
                     >
                       <i className="fas fa-user-circle"></i>
                     </button>
-                    <div
+                {token?
+                 <div
+                 className="dropdown-menu text-center"
+                 aria-labelledby="dropdownMenuButton"
+               >
+                 <Link className="dropdown-item" to="/adminpanel">
+                   Admin Panel
+                 </Link>
+                   <button
+                     className=" bg-light border-0"
+                     onClick={()=>localStorage.removeItem('verficationuserId')}
+                   > <Link to='/' >
+                     LogOut
+                   </Link>
+                   </button>
+               </div>
+              :  <div
                       className="dropdown-menu text-center"
                       aria-labelledby="dropdownMenuButton"
                     >
@@ -70,10 +86,10 @@ class NavBar extends Component {
                           className=" bg-light border-0"
                           onClick={this.handleShow}
                         > <Link to='/auth'>
-                          Login/SignUp
+                          Login as Admin
                         </Link>
                         </button>
-                    </div>
+                    </div>}
                   </div>
                 </div>
                 <div className="col-6  navbar_span_with_icons">
