@@ -41,7 +41,6 @@ export default class VendorCard extends React.Component {
           </Link>
           {this.props.edit? <button className={`btn-primary btn`} onClick={()=>this.props.DeletePostHandler()} >
             <i className='fas fa-trash-alt'>
-
             </i>
           </button>:null}
         </div>

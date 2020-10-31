@@ -11,19 +11,23 @@ body {
 ul{
   list-style-type: none;
 }
+
 .cta-btn {
   margin: 2vw;
-  background: black;
+  background: slateblue;
   border-radius: 66px;
-  color: yellow;
+  color: aliceblue;
   border: white 4px solid;
   font-weight: 800;
   width: 12rem;
   height: 3rem;
+  font-family: "poppins",sans-serif;
+  transition: 0.5  smooth !important;
 }
 .cta-btn:hover {
-  border: yellow solid 2px;
-  color: black;
+  border: none;
+  box-shadow: black 2px 2px 10px;
+  color: slateblue;
   background-color: transparent;
 }
 a {
@@ -53,8 +57,8 @@ h6 {
 span,
 label {
   color: black;
-  font-family: "Poppins", sans-serif;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 100%;
 }
 
 /*--------------------------------------------------------------

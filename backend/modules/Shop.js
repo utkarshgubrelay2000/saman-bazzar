@@ -1,24 +1,27 @@
 const mongoose=require("mongoose");
-
+const key=require("./key");
 const schema= mongoose.Schema;
 const newScheme=new schema({
-    address:{
+    Shop:{
         type:String,    
         required:true
     },
-    mobile:{
-        type:Number,
-        required:true
-    },
-    Imagesurl:{
+    OwnerName:{
         type:String,
         required:true
     },
-    Shop:{
+    Profile:{
         type:String,
         required:true
     },
+  Mobile:{
+        type:String,
+        required:true
+    },
+  address:{
+        type:String,
+        required:true
+    },
+    
 });
-// sytax in which the data should be entered for authentication
-
-module.exports=mongoose.model("post",newScheme)
+module.exports=mongoose.model("Saman-bazzar-Shops",newScheme)

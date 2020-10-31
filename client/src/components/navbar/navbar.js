@@ -49,7 +49,7 @@ class NavBar extends Component {
                   <i className="fas fa-archive"  onClick={() => this.setState({ setSmShow: true })} ></i>
                   <i className="fas fa-address-book"></i>
                   <div className="dropdown">
-                    <button
+                    <span
                       className="btn btn-light dropdown-toggle"
                       type="button"
                       id="dropdownMenuButton"
@@ -58,7 +58,7 @@ class NavBar extends Component {
                       aria-expanded="false"
                     >
                       <i className="fas fa-user-circle"></i>
-                    </button>
+                    </span>
                 {token?
                  <div
                  className="dropdown-menu text-center"

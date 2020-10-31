@@ -60,6 +60,27 @@ module.exports.verification = (req, res) => {
     }
   });
 };
+module.exports.CreateUser = (req, res) => {
+  console.log(req.body);
+  const post = new CreatePost({
+    address: req.body.Address,
+    Mobile: req.body.Mobile,
+    Profile: req.body.imageUrl[0].url,
+    company: req.body.company,
+    shop:req.body.shop,
+    OwnerName:req.body.shopOwner
+  });
+  post.save().then(user=>{
+    if(user){
+
+      res.json({data:"saved"}) 
+    }
+    else{
+      res.json({error:'something went wrong'})
+    }
+
+  })
+};
 module.exports.CreatePost = (req, res) => {
   console.log(req.body);
   const post = new CreatePost({

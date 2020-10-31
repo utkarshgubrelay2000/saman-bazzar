@@ -7,7 +7,7 @@ import Carousel from './../carosel/carousel.jsx';
 export default class Main extends React.Component{
   state={
     VendorCard:[
-    ]
+ ]
   } 
 
   componentDidMount(){
