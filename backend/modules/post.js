@@ -11,7 +11,7 @@ const newScheme=new schema({
         required:true
     },
     Imagesurl:{
-        type:String,
+        type:Arraya,
         required:true
     },
     Shop:{
