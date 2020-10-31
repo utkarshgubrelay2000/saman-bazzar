@@ -101,6 +101,9 @@ class Admin extends Component {
       Axios(OPTIONS)
         .then((response) => {
           console.log(response);
+          const img=[];
+          img.push(response.data.url)
+          this.setState({imageUrl:imgcloundnary})
         })
         .catch(function (error) {
           console.log(error, "huiu");
