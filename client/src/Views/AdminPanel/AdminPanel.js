@@ -103,7 +103,7 @@ class Admin extends Component {
           console.log(response);
           const img=[];
           img.push(response.data.url)
-          this.setState({imageUrl:imgcloundnary})
+          this.setState({imageUrl:img})
         })
         .catch(function (error) {
           console.log(error, "huiu");
