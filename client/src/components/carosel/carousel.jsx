@@ -1,18 +1,20 @@
 import React from 'react';
-
+import image from '../../assets/Images/pexels-oleg-magni-1005638.jpg'
 export default class Carousel extends React.Component{
   render(){
     return(
       <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img class="d-block w-100" src="https://picsum.photos/200/300" alt="First slide" />
+      <div>
+      <img class="d-block w-100" src={image} alt="First slide" />
+      </div>
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="https://picsum.photos/200/300" alt="Second slide" />
+      <img class="d-block w-100" src={image} alt="Second slide" />
     </div>
     <div class="carousel-item">
-      <img class="d-block w-100" src="https://picsum.photos/200/300" alt="Third slide" />
+      <img class="d-block w-100" src={image} alt="Third slide" />
     </div>
   </div>
   <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">

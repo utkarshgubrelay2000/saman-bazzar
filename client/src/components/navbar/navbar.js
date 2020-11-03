@@ -17,7 +17,7 @@ class NavBar extends Component {
   const token=localStorage.getItem("verficationuserId");
     return (
       <React.Fragment>
-        <div className="container">
+        <div >
           <section id="hero_nav">
             <nav className="navbar navbar-expand-lg navbar-light ">
               <div id="navbar_customercare">

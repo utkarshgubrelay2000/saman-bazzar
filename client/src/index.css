@@ -55,12 +55,79 @@ h6 {
   font-family: "Montserrat", sans-serif;
 }
 span,
+.profile-card .card {
+  border-radius: 10px;
+  border: 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.12);
+}
+
+.profile-card .card .card-body {
+  padding: 0;
+}
+.profile-card .card .card-body a{
+  font-size: 1.5vw;
+}
+.profile-card .card .card-body h5 {
+  text-transform: capitalize;
+  font-size: 18px;
+  padding: 24px 18px;
+  color: #354A21;
+  font-weight: 600;
+}
+
+
+.profile-card .card .items {
+  padding: 16px 0;
+  border-top: 1px solid #E9E9E9;
+  border-bottom: 1px solid #E9E9E9;
+}
+
+.profile-card .card .items ul li {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  list-style: none;
+  padding: 8px 0;
+  font-weight: 700;
+  padding-left: 16px;
+  color: #354A21;
+  letter-spacing: 1px;
+}
+
+.profile-card .card .items ul .active {
+  background-color: #F8F8F8;
+}
+
+.profile-card .card h6 {
+  text-transform: none;
+  margin-left: 16px;
+  font-size: 18px;
+  color: #354A21;
+  padding: 16px 0 0px 0;
+  margin-bottom: 16px;
+  font-weight: 700;
+  border-bottom-color: #728B6B; 
+  border-bottom-style: solid; 
+  border-bottom-width: 3px;
+  width: fit-content; 
+  border-radius: 0;
+}
+
+.profile-card .card h6 span {
+  color: #728B6B;
+  font-weight: 600;
+}
+
+
+
 label {
   color: black;
   font-weight: 600;
   font-size: 100%;
 }
+.accordion{
+ padding: 10px;
 
+}
 /*--------------------------------------------------------------
 # section ---> Landing page(home.js)
 --------------------------------------------------------------*/

@@ -1,5 +1,6 @@
 const AuthDatabase = require("../modules/authentication");
 const CreatePost = require("../modules/post");
+const User= require("../modules/Shop");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const key = require("../modules/key");
@@ -62,17 +63,15 @@ module.exports.verification = (req, res) => {
 };
 module.exports.CreateUser = (req, res) => {
   console.log(req.body);
-  const post = new CreatePost({
+  const post = new User({
     address: req.body.Address,
     Mobile: req.body.Mobile,
-    Profile: req.body.imageUrl[0].url,
-    company: req.body.company,
-    shop:req.body.shop,
+    Profile: req.body.imageUrl[0],
+    Shop:req.body.shop,
     OwnerName:req.body.shopOwner
   });
   post.save().then(user=>{
     if(user){
-
       res.json({data:"saved"}) 
     }
     else{
@@ -82,17 +81,18 @@ module.exports.CreateUser = (req, res) => {
   })
 };
 module.exports.CreatePost = (req, res) => {
-  console.log(req.body);
   const post = new CreatePost({
     address: req.body.Address,
     mobile: req.body.Mobile,
-    Imagesurl: req.body.imageUrl[0].url,
-    company: req.body.company,
+    Imagesurl: req.body.imageUrl[0],
+    Shop: req.body.company,
+    userId:req.params.id
   });
   post.save().then(user=>{
     if(user){
-
-      res.json({data:"saved"}) 
+      CreatePost.find({}).then(userdata=>{
+        res.json({data:userdata}) 
+      })
     }
     else{
       res.json({error:'something went wrong'})
@@ -102,6 +102,11 @@ module.exports.CreatePost = (req, res) => {
 };
 module.exports.GetPost=(req,res)=>{
   CreatePost.find({}).then(data=>{
+res.json(data)
+  })
+}
+module.exports.GetUser=(req,res)=>{
+  User.find({}).then(data=>{
 res.json(data)
   })
 }

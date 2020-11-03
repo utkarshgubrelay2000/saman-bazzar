@@ -18,6 +18,9 @@ const newScheme=new schema({
         type:String,
         required:true
     },
+    userId:{
+        type:String,required:true
+    }
 });
 // sytax in which the data should be entered for authentication
 

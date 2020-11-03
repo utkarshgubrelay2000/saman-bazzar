@@ -17,12 +17,10 @@ export default class VendorCard extends React.Component {
         />
         <div class="card-body">
           <h6> 
-          {this.props.Details.company}
+          {this.props.Details.company || this.props.Details.Shop}
           </h6>
           <hr />
-          <h6 className={`${styles.mobileh6}`}>Mobile/WhatsApp No:</h6>
           <a
-            className={`${styles.spantext}`}
             target="_blank"
             rel="noopener noreferrer"
             href="https://api.whatsapp.com/send?phone=+91 9910299769&text=Hello,Sir I want to buy this https://picsum.photos/id/237/200/300"
@@ -30,8 +28,8 @@ export default class VendorCard extends React.Component {
            {this.props.Details.mobile}
           </a>
           <br />
-          <h6 className={`${styles.mobileh6}`}>Address:</h6>
-          <span className={`${styles.spantext}`}>
+
+          <span >
            {this.props.Details.address}
           </span>
           <hr />

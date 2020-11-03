@@ -1,8 +1,8 @@
 import Axios from "axios";
 import React, { Component } from "react";
-import { Modal } from "react-bootstrap";
-import { storage } from "../../FireBaseconfig/fire";
-import Card from "../../components/vendorcard/vendorcard.jsx";
+import { Modal, Accordion, Card } from "react-bootstrap";
+import { Avatar } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 class Admin extends Component {
   state = {
@@ -12,12 +12,15 @@ class Admin extends Component {
     Address: null,
     Mobile: null,
     imageUrl: [],
-    shop: null,
-    shopOwner: null,
+    Shop: null,
+    ShopOwner: null,
     image: [],
     message: null,
     error: null,
+    invalid: false,
     VendorCard: [],
+    User: [],
+    activeUser: null,
   };
   DeletePost = (id) => {
     var OPTIONS = {
@@ -39,8 +42,11 @@ class Admin extends Component {
         console.log(error);
       });
   };
-  handleShow = () => this.setState({ show: true });
-  handleClose = () => this.setState({ show: false });
+  handleShow = (e, id) => {
+    e.preventDefault();
+    this.setState({ show: true, activeUser: id });
+  };
+  handleClose = () => this.setState({ show: false, activeUser: null });
   UserhandleShow = () => this.setState({ usershow: true });
   UserhandleClose = () => this.setState({ usershow: false });
   UploadImage = (e) => {
@@ -54,42 +60,36 @@ class Admin extends Component {
           image: img,
         });
       }
-      console.log(img);
+      // console.log(img);
     }
   };
   componentDidMount() {
     var OPTIONS = {
       method: "GET",
-      url: "http://localhost:8080/admin/GetPost",
+      url: "http://localhost:8080/admin/GetUser",
       headers: {
         "Content-Type": "application/json",
       },
     };
     Axios(OPTIONS)
       .then((response) => {
-        if (response.data.error) {
-          console.log("jj");
-        } else {
-          console.log(response.data);
-          this.setState({
-            VendorCard: response.data,
-          });
-        }
+        console.log(response.data);
+        this.setState({
+          User: response.data,
+        });
       })
       .catch(function (error) {
         console.log(error);
       });
   }
 
-  UploadPicture = () => {
+  UploadPicture = async () => {
     const data = new FormData();
     for (let key = 0; key < this.state.image.length; key++) {
-      data.append("upload_preset", "pagalworld");
-      data.append("cloud_name", "a2k");
-      data.append("file", this.state.image[key]);
-      data.append("folder", "shop");
-      console.log(this.state.image[key]);
-
+      await data.append("upload_preset", "pagalworld");
+      await data.append("cloud_name", "a2k");
+      await data.append("file", this.state.image[key]);
+      await data.append("folder", "shop");
       var OPTIONS = {
         method: "Post",
         data: data,
@@ -98,16 +98,17 @@ class Admin extends Component {
           "Content-Type": "application/json",
         },
       };
-      Axios(OPTIONS)
+      await Axios(OPTIONS)
         .then((response) => {
           console.log(response);
-          const img=[];
-          img.push(response.data.url)
-          this.setState({imageUrl:img})
+          const img = [];
+          img.push(response.data.url);
+          this.setState({ imageUrl: img, invalid: true });
         })
         .catch(function (error) {
           console.log(error, "huiu");
         });
+      return this.state.invalid;
     }
   };
 
@@ -116,51 +117,56 @@ class Admin extends Component {
       [e.target.name]: e.target.value,
     });
   };
-  CreatePost = () => {
-    const { company, imageUrl, Mobile, Address } = this.state;
-    if (company && imageUrl && Mobile && Address) {
-      var OPTIONS = {
-        method: "POST",
-        data: {
-          company: company,
-          Address: Address,
-          Mobile: Mobile,
-          imageUrl: imageUrl,
-        },
-        url: "http://localhost:8080/admin/Create",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      Axios(OPTIONS)
-        .then((response) => {
-          console.log(response);
-          this.setState({
-            message: response.data,
-          });
-          if (response.data.error) {
-            this.setState({
-              error: response.data.error,
+  CreatePost = async () => {
+    console.log(this.state.activeUser);
+
+    if (this.state.activeUser) {
+      let valid = await this.UploadPicture();
+      console.log(valid);
+      if (valid) {
+        const { company, imageUrl, Mobile, Address } = this.state;
+        if (company && imageUrl && Mobile && Address) {
+          var OPTIONS = {
+            method: "POST",
+            data: {
+              company: company,
+              Address: Address,
+              Mobile: Mobile,
+              imageUrl: imageUrl,
+            },
+            url: "http://localhost:8080/admin/Create/" + this.state.activeUser,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          };
+          Axios(OPTIONS)
+            .then((response) => {
+              console.log(response);
+              this.setState({
+                VendorCard: response.data,
+              });
+            })
+            .catch((error) => {
+              console.log(error);
             });
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        }
+      }
     }
   };
-  CreateUser = () => {
-    console.log(this.state);
+  CreateUser = async () => {
+    let valid = await this.UploadPicture();
+    console.log(valid);
+    if (valid) {
+      console.log(this.state);
 
-    const { shop, shopOwner, imageUrl, Mobile, Address } = this.state;
-    if (shop && shopOwner && imageUrl && Mobile && Address) {
+      const { Shop, ShopOwner, imageUrl, Mobile, Address } = this.state;
       console.log("here");
 
       var OPTIONS = {
         method: "POST",
         data: {
-          shopOwner: shopOwner,
-          shop: shop,
+          shopOwner: ShopOwner,
+          shop: Shop,
           Address: Address,
           Mobile: Mobile,
           imageUrl: imageUrl,
@@ -188,29 +194,117 @@ class Admin extends Component {
     }
   };
   render() {
-    console.log(this.state.image);
-
     return (
-      <div>
-        <button className="cta-btn" onClick={this.handleShow}>
-          Create Post
-        </button>
-        <button className="cta-btn" onClick={this.UserhandleShow}>
-          Create User
-        </button>
+      <div className="container ">
+       <div className='row'>
+        <div className="col-lg-4 profile-card">
+                <div className="card  mx-auto" style={{ width: "18rem" }}>
+                  <div className="card-body">
+                    <h5>
+                      Hi 
+                    </h5>
+                    <div className="items">
+                      <ul className='text-center'>
+                        <h2>
+                          <Link to='/adminpanel/users/'>
+                            Users
+                          </Link>
+                        </h2>
+                        <h2>
+                          <Link to='/adminpanel/posts/'>
+                            Posts
+                          </Link>
+                        </h2>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+       
+          <div className='col-lg-8'>
+          <Accordion defaultActiveKey="0">
+            {this.state.User.map((Element, index) => {
+              if (index !== 0) {
+                return (
+                  <Card>
+                    <Accordion.Toggle as={Card.Header} eventKey={index}>
+                      <div className="row text-center border-black">
+                        <div className="col-3">
+                          <Avatar alt="Remy Sharp" src={Element.Profile} />
+                        </div>
+                        <div className="col-5">
+                          <h5>
+                            {Element.Shop} {"   "}
+                          </h5>
+                        </div>
+                      </div>
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey={index}>
+                      <Card.Body>
+                        <div>
+                          <span>{Element.OwnerName}</span>
+                        </div>
+                        <div>
+                          <a href={"tel:" + Element.Mobile}>{Element.Mobile}</a>
+                        </div>
+                        <div>{Element.address}</div>
 
-        <div className="gridcontainer">
-          {this.state.VendorCard.map((i) => {
-            return (
-              <Card
-                Details={i}
-                edit="true"
-                DeletePostHandler={() => this.DeletePost(i._id)}
-              />
-            );
-          })}
-        </div>
-
+                        <button
+                          className="btn-primary rounded"
+                          onClick={(e) => this.handleShow(e, Element._id)}
+                        >
+                          Create Post
+                        </button>
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                );
+              } else {
+                return (
+                  <Card>
+                    <Accordion.Toggle as={Card.Header} eventKey="0">
+                      <div className="row text-center">
+                        <div className="col-3">
+                          <Avatar alt="Remy Sharp" src={Element.Profile} />
+                        </div>
+                        <div className="col-5">
+                          <h5>
+                            {Element.Shop} {"   "}
+                          </h5>
+                        </div>
+                      </div>
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey="0">
+                      <Card.Body>
+                        <div>
+                          <span>{Element.OwnerName}</span>
+                        </div>
+                        <div>
+                          <a href={"tel:" + Element.Mobile}>{Element.Mobile}</a>
+                        </div>
+                        <div>{Element.address}</div>
+                        <button
+                          className="btn-primary rounded"
+                          onClick={(e) => this.handleShow(e, Element._id)}
+                        >
+                          Create Post
+                        </button>
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                );
+              }
+            })}
+        <Accordion.Toggle as={Card.Header} >
+                      <div  onClick={this.UserhandleShow} className="text-center">
+                        
+                        <i className="fas fa-plus"></i>
+                     
+                      </div>
+                    </Accordion.Toggle>
+       
+          </Accordion>
+        </div></div>
         <Modal size="lg" show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Create Post</Modal.Title>
@@ -257,16 +351,10 @@ class Admin extends Component {
                 onChange={this.UploadImage}
                 id="exampleInputPassword1"
               />
-              <button
-                onClick={this.UploadPicture}
-                className="text-center cta-btn"
-              >
-                Upload
-              </button>
             </div>
             <div className="text-center">
               <button onClick={this.CreatePost} className="text-center cta-btn">
-                Create
+                Create Post
               </button>
             </div>
           </Modal.Body>
@@ -332,12 +420,6 @@ class Admin extends Component {
                 onChange={this.UploadImage}
                 id="exampleInputPassword1"
               />
-              <button
-                onClick={this.UploadPicture}
-                className="text-center cta-btn"
-              >
-                Upload
-              </button>
             </div>
             <div className="text-center">
               <button onClick={this.CreateUser} className="text-center cta-btn">
