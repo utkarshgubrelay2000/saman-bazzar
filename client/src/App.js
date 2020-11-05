@@ -20,7 +20,7 @@ class App extends Component {
           <Route exact component={Home} path="/" />
           <Route exact component={Auth} path="/auth"/>
  {!token?
-          <Route exact component={AdminPanel} path="/adminpanel" />:null
+          <Route  component={AdminPanel} path="/adminpanel" />:null
         }
           <Route exact component={AdminAuth} path="/auth/:id" />
         </Switch>

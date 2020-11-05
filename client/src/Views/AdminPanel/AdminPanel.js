@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Modal, Accordion, Card } from "react-bootstrap";
 import { Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
-
+import Vendorcard from '../../components/vendorcard/vendorcard'
 class Admin extends Component {
   state = {
     show: false,
@@ -21,6 +21,8 @@ class Admin extends Component {
     VendorCard: [],
     User: [],
     activeUser: null,
+    renderPost: false,
+    renderUser: false,
   };
   DeletePost = (id) => {
     var OPTIONS = {
@@ -81,6 +83,15 @@ class Admin extends Component {
       .catch(function (error) {
         console.log(error);
       });
+      Axios.get("http://localhost:8080/admin/GetPost",{
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(res=>{
+        this.setState({
+          VendorCard:res.data
+        })
+      })
   }
 
   UploadPicture = async () => {
@@ -145,6 +156,7 @@ class Admin extends Component {
               this.setState({
                 VendorCard: response.data,
               });
+              document.getElementById("modalclosepost").click();
             })
             .catch((error) => {
               console.log(error);
@@ -182,174 +194,235 @@ class Admin extends Component {
           this.setState({
             message: response.data,
           });
-          if (response.data.error) {
+          var OPTIONS = {
+            method: "GET",
+            url: "http://localhost:8080/admin/GetUser",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          };
+          Axios(OPTIONS).then((response) => {
             this.setState({
-              error: response.data.error,
+              User: response.data,
             });
-          }
+          });
+          document.getElementById("modalcloseuser").click();
         })
         .catch(function (error) {
           console.log(error);
         });
     }
   };
+
   render() {
     return (
       <div className="container ">
-       <div className='row'>
-        <div className="col-lg-4 profile-card">
-                <div className="card  mx-auto" style={{ width: "18rem" }}>
-                  <div className="card-body">
-                    <h5>
-                      Hi 
-                    </h5>
-                    <div className="items">
-                      <ul className='text-center'>
-                        <h2>
-                          <Link to='/adminpanel/users/'>
-                            Users
-                          </Link>
-                        </h2>
-                        <h2>
-                          <Link to='/adminpanel/posts/'>
-                            Posts
-                          </Link>
-                        </h2>
-                      </ul>
-                    </div>
-                  </div>
+        <div className="row">
+          <div className="col-lg-4 profile-card">
+            <div className="card  mx-auto" style={{ width: "18rem" }}>
+              <div className="card-body">
+                <h5>Hi</h5>
+                <div className="items">
+                  <ul className="text-center">
+                    <h2>
+                      <Link to="/adminpanel/">Panel</Link>
+                    </h2>
+                    <h2>
+                      <Link to="/adminpanel/users/">Users</Link>
+                    </h2>
+                    <h2>
+                      <Link to="/adminpanel/posts/">Posts</Link>
+                    </h2>
+                  </ul>
                 </div>
               </div>
-       
-          <div className='col-lg-8'>
-          <Accordion defaultActiveKey="0">
-            {this.state.User.map((Element, index) => {
-              if (index !== 0) {
-                return (
-                  <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey={index}>
-                      <div className="row text-center border-black">
-                        <div className="col-3">
-                          <Avatar alt="Remy Sharp" src={Element.Profile} />
-                        </div>
-                        <div className="col-5">
-                          <h5>
-                            {Element.Shop} {"   "}
-                          </h5>
-                        </div>
-                      </div>
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey={index}>
-                      <Card.Body>
-                        <div>
-                          <span>{Element.OwnerName}</span>
-                        </div>
-                        <div>
-                          <a href={"tel:" + Element.Mobile}>{Element.Mobile}</a>
-                        </div>
-                        <div>{Element.address}</div>
+            </div>
+          </div>
+          {this.props.location.pathname === "/adminpanel/posts/" ? (
+            <div className="col-lg-8 mr-auto vendorCard">
+              {this.state.VendorCard.map((element,index)=>{
+                console.log(element)
+                return(
+                  <div class="card" style={{width: "18rem"}} key={index}>
+                  <img src={element.Imagesurl[0]} class="card-img-top" alt="noy" />
+                  <div class="card-body">
+                    <h5 class="card-title">{element.company || element.Shop}</h5>
+             
+                    <p class="card-text"> <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href={'https://api.whatsapp.com/send?phone=+91 '+element.mobile+'&text=Hello,Sir I want to buy this'+element.Imagesurl[0]}
+          >  
+           {element.mobile}
+          
+          </a>.</p> {element.address} <br/>
+                    <i className='fas fa-trash-alt'>
+                  </i>
+                  </div>
+                </div>
+                )
+              })}
+            </div>
+          ) : this.props.location.pathname === "/adminpanel/users/" ? 
+          <div className="col-lg-8 mr-auto vendorCard">
+          {this.state.User.map((element,index)=>{
+            console.log(element);
+            return(
 
-                        <button
-                          className="btn-primary rounded"
-                          onClick={(e) => this.handleShow(e, Element._id)}
-                        >
-                          Create Post
-                        </button>
-                      </Card.Body>
-                    </Accordion.Collapse>
-                  </Card>
-                );
-              } else {
-                return (
-                  <Card>
-                    <Accordion.Toggle as={Card.Header} eventKey="0">
-                      <div className="row text-center">
-                        <div className="col-3">
-                          <Avatar alt="Remy Sharp" src={Element.Profile} />
-                        </div>
-                        <div className="col-5">
-                          <h5>
-                            {Element.Shop} {"   "}
-                          </h5>
-                        </div>
-                      </div>
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="0">
-                      <Card.Body>
-                        <div>
-                          <span>{Element.OwnerName}</span>
-                        </div>
-                        <div>
-                          <a href={"tel:" + Element.Mobile}>{Element.Mobile}</a>
-                        </div>
-                        <div>{Element.address}</div>
-                        <button
-                          className="btn-primary rounded"
-                          onClick={(e) => this.handleShow(e, Element._id)}
-                        >
-                          Create Post
-                        </button>
-                      </Card.Body>
-                    </Accordion.Collapse>
-                  </Card>
-                );
-              }
-            })}
-        <Accordion.Toggle as={Card.Header} >
-                      <div  onClick={this.UserhandleShow} className="text-center">
-                        
-                        <i className="fas fa-plus"></i>
-                     
-                      </div>
-                    </Accordion.Toggle>
-       
-          </Accordion>
-        </div></div>
-        <Modal size="lg" show={this.state.show} onHide={this.handleClose}>
+              <div class="card">
+              <img src={element.Profile} class="card-img-top" alt=""/>
+              <div class="card-body">
+            <h5 class="card-title">{element.OwnerName}</h5>
+                <h5 class="card-text">{element.Mobile} </h5>
+               <div className='btn-danger'>
+                  <i className='fas fa-trash-alt'>
+              </i> </div>
+              </div>
+            </div>
+          
+            )
+          }) }
+          </div>: (
+            <div className="col-lg-8">
+              <Accordion defaultActiveKey="0">
+                {this.state.User.map((Element, index) => {
+                  if (index !== 0) {
+                    return (
+                      <Card key={index}>
+                        <Accordion.Toggle as={Card.Header} eventKey={index}>
+                          <div className="row text-center border-black">
+                            <div className="col-3">
+                              <Avatar alt="Remy Sharp" src={Element.Profile} />
+                            </div>
+                            <div className="col-5">
+                              <h5>
+                                {Element.Shop} {"   "}
+                              </h5>
+                            </div>
+                          </div>
+                        </Accordion.Toggle>
+                        <Accordion.Collapse eventKey={index}>
+                          <Card.Body>
+                            <div>
+                              <span className="spanOwnername">
+                                {Element.OwnerName.toUpperCase()}
+                              </span>
+                            </div>
+                            <div>
+                              <a href={"tel:" + Element.Mobile}>
+                                {Element.Mobile}
+                              </a>
+                            </div>
+                            <div>{Element.address}</div>
+
+                            <button
+                              className="btn-primary rounded"
+                              onClick={(e) => this.handleShow(e, Element._id)}
+                            >
+                              Create Post
+                            </button>
+                          </Card.Body>
+                        </Accordion.Collapse>
+                      </Card>
+                    );
+                  } else {
+                    return (
+                      <Card key={index}>
+                        <Accordion.Toggle as={Card.Header} eventKey="0">
+                          <div className="row text-center">
+                            <div className="col-3">
+                              <Avatar alt="Remy Sharp" src={Element.Profile} />
+                            </div>
+                            <div className="col-5">
+                              <h5>
+                                {Element.Shop} {"   "}
+                              </h5>
+                            </div>
+                          </div>
+                        </Accordion.Toggle>
+                        <Accordion.Collapse eventKey="0">
+                          <Card.Body>
+                            <div>
+                              <span>{Element.OwnerName}</span>
+                            </div>
+                            <div>
+                              <a href={"tel:" + Element.Mobile}>
+                                {Element.Mobile}
+                              </a>
+                            </div>
+                            <div>{Element.address}</div>
+                            <button
+                              className="btn-primary rounded"
+                              onClick={(e) => this.handleShow(e, Element._id)}
+                            >
+                              Create Post
+                            </button>
+                          </Card.Body>
+                        </Accordion.Collapse>
+                      </Card>
+                    );
+                  }
+                })}
+                <Accordion.Toggle as={Card.Header}>
+                  <div onClick={this.UserhandleShow} className="text-center">
+                    <i className="fas fa-plus"></i>
+                  </div>
+                </Accordion.Toggle>
+              </Accordion>
+            </div>
+          )}
+        </div>
+
+        <Modal
+          size="lg"
+          show={this.state.show}
+          id="modalclosepost"
+          onHide={this.handleClose}
+        >
           <Modal.Header closeButton>
             <Modal.Title>Create Post</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {" "}
-            <div class="form-group">
-              <label for="exampleInputEmail1">Company</label>
+            <div className="form-group">
+              <label htmlFor="exampleInputEmail1">Company</label>
               <input
                 type="text"
-                class="form-control"
+                className="form-control"
                 id="exampleInputEmail1"
                 name="company"
                 onChange={this.onChangeHandler}
                 aria-describedby="emailHelp"
               />
             </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Mobile Number</label>
+            <div className="form-group">
+              <label htmlFor="exampleInputPassword2">Mobile Number</label>
               <input
                 type="text"
-                class="form-control"
-                id="exampleInputPassword1"
+                className="form-control"
+                id="exampleInputPassword2"
                 name="Mobile"
                 onChange={this.onChangeHandler}
               />
             </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Address</label>
+            <div className="form-group">
+              <label htmlFor="exampleInputPassword3">Address</label>
               <input
                 type="text"
-                class="form-control"
-                id="exampleInputPassword1"
+                className="form-control"
+                id="exampleInputPassword3"
                 name="Address"
                 onChange={this.onChangeHandler}
               />
             </div>
-            <div class="form-group text-center">
-              <label for="exampleInputPassword1"> Upload Images</label>
+            <div className="form-group text-center">
+              <label htmlFor="exampleInputPassword4"> Upload Images</label>
               <input
                 type="file"
-                class="form-control btn-primary"
+                className="form-control btn-primary"
                 multiple
                 onChange={this.UploadImage}
-                id="exampleInputPassword1"
+                id="exampleInputPassword4"
               />
             </div>
             <div className="text-center">
@@ -359,66 +432,66 @@ class Admin extends Component {
             </div>
           </Modal.Body>
         </Modal>
-
         <Modal
           size="lg"
           show={this.state.usershow}
           onHide={this.UserhandleClose}
+          id="modalcloseuser"
         >
           <Modal.Header closeButton>
             <Modal.Title>Modal heading</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {" "}
-            <div class="form-group">
-              <label for="exampleInputEmail1">Shop</label>
+            <div className="form-group">
+              <label htmlFor="exampleInputEmail5">Shop</label>
               <input
                 type="text"
-                class="form-control"
-                id="exampleInputEmail1"
+                className="form-control"
+                id="exampleInputEmail5"
                 name="Shop"
                 onChange={this.onChangeHandler}
                 aria-describedby="emailHelp"
               />
             </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Mobile Number</label>
+            <div className="form-group">
+              <label htmlFor="exampleInputPassword6">Mobile Number</label>
               <input
                 type="text"
-                class="form-control"
-                id="exampleInputPassword1"
+                className="form-control"
+                id="exampleInputPassword6"
                 name="Mobile"
                 onChange={this.onChangeHandler}
               />
             </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Shop Owner</label>
+            <div className="form-group">
+              <label htmlFor="exampleInputPassword7">Shop Owner</label>
               <input
                 type="text"
-                class="form-control"
-                id="exampleInputPassword1"
+                className="form-control"
+                id="exampleInputPassword7"
                 name="ShopOwner"
                 onChange={this.onChangeHandler}
               />
             </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Address</label>
+            <div className="form-group">
+              <label htmlFor="exampleInputPassword8">Address</label>
               <input
                 type="text"
-                class="form-control"
-                id="exampleInputPassword1"
+                className="form-control"
+               id='exampleInputPassword8'
                 name="Address"
                 onChange={this.onChangeHandler}
               />
             </div>
-            <div class="form-group text-center">
-              <label for="exampleInputPassword1"> Upload Images</label>
+            <div className="form-group text-center">
+              <label htmlFor="exampleInputPassword9"> Upload Images</label>
               <input
                 type="file"
-                class="form-control btn-primary"
+                className="form-control btn-primary"
                 multiple
                 onChange={this.UploadImage}
-                id="exampleInputPassword1"
+                id="exampleInputPassword9"
               />
             </div>
             <div className="text-center">

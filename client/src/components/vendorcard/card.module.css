@@ -1,5 +1,5 @@
 .imgheight{
-  height: 40vh;
+  height: 30vh;
 }
 .link{
   display: block;
@@ -48,7 +48,7 @@ h6{
 }
 @media only screen and (min-width: 1024px) {
   .cardswidth{
-    width:30vw !important; 
+    width:40% !important; 
   }
 
 }

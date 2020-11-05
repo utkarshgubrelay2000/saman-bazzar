@@ -6,9 +6,10 @@ export default class VendorCard extends React.Component {
   render() {
 
     return (
+   <section id='vendor'>
       <div
         className={`card ${styles.cardswidth}`}
-        style={{ marginTop: "15px" }}
+        style={{ marginTop: "15px",padding:'10px'}}
       >
         <img
           className={`card-img-top ${styles.imgheight}`}
@@ -34,15 +35,15 @@ export default class VendorCard extends React.Component {
           </span>
           <hr />
 
-          <Link to={'/products/'+this.props.Details._id} className={`btn cta-btn`}>
-            Products
-          </Link>
+        
           {this.props.edit? <button className={`btn-primary btn`} onClick={()=>this.props.DeletePostHandler()} >
             <i className='fas fa-trash-alt'>
             </i>
-          </button>:null}
+          </button>:<Link to={'/products/'+this.props.Details._id} className={`btn cta-btn`}>
+            Products
+          </Link>}
         </div>
       </div>
-    );
+  </section>  );
   }
 }
