@@ -4,63 +4,26 @@ const User= require("../modules/Shop");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const key = require("../modules/key");
+const jwt=require('jsonwebtoken');
+const Shop = require("../modules/Shop");
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: key.auth,
 });
 module.exports.adminLogin = (req, res) => {
-  AuthDatabase.findOne({ email: req.body.email }).then((user) => {
+  AuthDatabase.findOne({ email: req.body.email,password:req.body.password }).then((user) => {
     if (!user) {
       res.json({ error: "admin Not found" });
     } else {
       console.log("here");
+      const token=jwt.sign({secretId:user._id}, "uhdiuagdgwodgq77228")
+      console.log(token);
+      res.json({
+        succes:token
+      });
 
-      bcrypt
-        .compare(req.body.password, user.password)
-        .then((ifSame) => {
-          if (ifSame) {
-            res.json("You will get the Email");
-            const token = Math.random() * 10000000;
-            transporter.sendMail({
-              to: "utkarshgubrelay2000@gmail.com",
-              from: "password@gmail.com",
-              subject: "Redirect link",
+    }})}
 
-              html: `<p> you requested for password forgot password </p>
-            <h5>click here <a href="http://localhost:3000/auth/${token}>Link <a/>  </h5>`,
-            });
-            user.passwordToken = token;
-            user.expireToken = Date.now() + 360000;
-            user.save().then((ok) => {
-              console.log("saved");
-            });
-          } else {
-            res.json({ error: "user or email is wrong" });
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  });
-};
-module.exports.verification = (req, res) => {
-  console.log(req.body);
-
-  AuthDatabase.findOne({
-    passwordToken: req.body.token,
-    expireToken: { $gt: Date.now() },
-  }).then((user) => {
-    console.log(user);
-
-    if (!user) {
-      res.json({ error: "expies" });
-      // console.log('here is error');
-    } else {
-      res.json({ succes: user._id });
-    }
-  });
-};
 module.exports.CreateUser = (req, res) => {
   console.log(req.body);
   const post = new User({
@@ -105,16 +68,36 @@ module.exports.GetPost=(req,res)=>{
 res.json(data)
   })
 }
-module.exports.GetUser=(req,res)=>{
+module.exports.GetUser= (req,res)=>{
+  
   User.find({}).then(data=>{
-res.json(data)
+ //  console.log(data);
+   res.json(data)
+    
+  }).catch(err=>{
+    console.log(err);
+    return
   })
 }
 module.exports.DeletePost=(req,res)=>{
-  console.log(req.body)
+ // console.log(req.body)
   CreatePost.findOneAndDelete({_id:req.body.id}).then(data=>{
 CreatePost.find({}).then(newdata=>{
   res.json(newdata)
 })
+  })
+}
+module.exports.DeleteUser=(req,res)=>{
+  //console.log(req.body)
+  Shop.findOneAndDelete({_id:req.body.id}).then(data=>{
+Shop.find({}).then(newdata=>{
+  res.json(newdata)
+})
+  })
+}
+exports.GetParticularUser=(req,res)=>{
+  const {id}= req.body
+  Shop.findOne({_id:id},{_id:0}).then(user=>{
+    res.json(user)
   })
 }

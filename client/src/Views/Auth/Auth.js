@@ -29,9 +29,8 @@ class Auth_modal extends Component{
     Axios(OPTIONS)
     .then((response)=> {
    console.log(response);
-   this.setState({
-     message:response.data
-   })
+  
+   localStorage.setItem('token',response.data.succes)
    if(response.data.error){
     this.setState({
       error:response.data.error

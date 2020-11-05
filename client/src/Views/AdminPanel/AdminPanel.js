@@ -31,6 +31,7 @@ class Admin extends Component {
       url: "http://localhost:8080/admin/DeletePost",
       headers: {
         "Content-Type": "application/json",
+        "Authorization":"Bearer "+ localStorage.getItem("token")
       },
     };
     Axios(OPTIONS)
@@ -38,6 +39,27 @@ class Admin extends Component {
         console.log(response);
         this.setState({
           VendorCard: response.data,
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  DeleteUser = (id) => {
+    var OPTIONS = {
+      method: "DELETE",
+      data: { id: id },
+      url: "http://localhost:8080/admin/DeleteUser",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization":"Bearer "+ localStorage.getItem("token")
+      },
+    };
+    Axios(OPTIONS)
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          User: response.data,
         });
       })
       .catch(function (error) {
@@ -66,14 +88,13 @@ class Admin extends Component {
     }
   };
   componentDidMount() {
-    var OPTIONS = {
-      method: "GET",
-      url: "http://localhost:8080/admin/GetUser",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    Axios(OPTIONS)
+ 
+    Axios.get(`http://localhost:8080/admin/GetUser`,{
+      headers:{
+          "Content-Type":"application/json",
+          "Authorization":"Bearer "+localStorage.getItem("token")
+      }
+  })
       .then((response) => {
         console.log(response.data);
         this.setState({
@@ -81,11 +102,11 @@ class Admin extends Component {
         });
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error.response);
       });
       Axios.get("http://localhost:8080/admin/GetPost",{
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json","Authorization":"Bearer "+localStorage.getItem("token")
         },
       }).then(res=>{
         this.setState({
@@ -199,6 +220,7 @@ class Admin extends Component {
             url: "http://localhost:8080/admin/GetUser",
             headers: {
               "Content-Type": "application/json",
+              "Authorization":"Bearer "+localStorage.getItem("token")
             },
           };
           Axios(OPTIONS).then((response) => {
@@ -213,7 +235,33 @@ class Admin extends Component {
         });
     }
   };
+componentDidUpdate(){
+  if(this.state.activeUser){
+    console.log(this.state.activeUser);
+    var OPTIONS = {
+      method: "Post",
+      data:{id:this.state.activeUser},
+      url: "http://localhost:8080/admin/GetParticularUser",
+      headers: {
+        "Content-Type": "application/json","Authorization":"Bearer "+localStorage.getItem("token")
 
+      },
+    };
+    Axios(OPTIONS).then((response) => {
+        console.log(response.data);
+        const {address,Shop,Mobile}=response.data
+        this.setState({company:Shop,
+          Address:address,Mobile:Mobile,activeUser:null
+        })
+       
+      })
+      .catch(function (error) {
+        console.log(error.response);
+      });
+    
+  }
+
+}
   render() {
     return (
       <div className="container ">
@@ -241,14 +289,14 @@ class Admin extends Component {
           {this.props.location.pathname === "/adminpanel/posts/" ? (
             <div className="col-lg-8 mr-auto vendorCard">
               {this.state.VendorCard.map((element,index)=>{
-                console.log(element)
+              //  console.log(element)
                 return(
-                  <div class="card" style={{width: "18rem"}} key={index}>
-                  <img src={element.Imagesurl[0]} class="card-img-top" alt="noy" />
-                  <div class="card-body">
-                    <h5 class="card-title">{element.company || element.Shop}</h5>
+                  <div className="card" style={{width: "18rem"}} key={index}>
+                  <img src={element.Imagesurl[0]} className="card-img-top" alt="noy" />
+                  <div className="card-body">
+                    <h5 className="card-title">{element.company || element.Shop}</h5>
              
-                    <p class="card-text"> <a
+                    <p className="card-text"> <a
             target="_blank"
             rel="noopener noreferrer"
             href={'https://api.whatsapp.com/send?phone=+91 '+element.mobile+'&text=Hello,Sir I want to buy this'+element.Imagesurl[0]}
@@ -256,8 +304,11 @@ class Admin extends Component {
            {element.mobile}
           
           </a>.</p> {element.address} <br/>
+          <div className='btn-danger' onClick={()=>this.DeletePost(element._id)}>
                     <i className='fas fa-trash-alt'>
                   </i>
+
+            </div>
                   </div>
                 </div>
                 )
@@ -269,12 +320,12 @@ class Admin extends Component {
             console.log(element);
             return(
 
-              <div class="card">
-              <img src={element.Profile} class="card-img-top" alt=""/>
-              <div class="card-body">
-            <h5 class="card-title">{element.OwnerName}</h5>
-                <h5 class="card-text">{element.Mobile} </h5>
-               <div className='btn-danger'>
+              <div className="card">
+              <img src={element.Profile} className="card-img-top" alt=""/>
+              <div className="card-body">
+            <h5 className="card-title">{element.OwnerName}</h5>
+                <h5 className="card-text">{element.Mobile} </h5>
+               <div className='btn-danger' onClick={()=>this.DeleteUser(element._id)}>
                   <i className='fas fa-trash-alt'>
               </i> </div>
               </div>
@@ -391,8 +442,10 @@ class Admin extends Component {
                 className="form-control"
                 id="exampleInputEmail1"
                 name="company"
+                value={this.state.company}
                 onChange={this.onChangeHandler}
                 aria-describedby="emailHelp"
+                disabled
               />
             </div>
             <div className="form-group">
@@ -402,6 +455,7 @@ class Admin extends Component {
                 className="form-control"
                 id="exampleInputPassword2"
                 name="Mobile"
+                value={this.state.Mobile}
                 onChange={this.onChangeHandler}
               />
             </div>
@@ -413,6 +467,7 @@ class Admin extends Component {
                 id="exampleInputPassword3"
                 name="Address"
                 onChange={this.onChangeHandler}
+                value={this.state.Address} disabled
               />
             </div>
             <div className="form-group text-center">

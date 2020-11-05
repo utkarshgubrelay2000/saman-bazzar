@@ -101,7 +101,7 @@ height: 36vh;
 }
 @media (min-width:600px){
   .vendorCard{
-    display: inline;
+    display: flex;
     text-align: center;
     margin: auto;
 
@@ -118,6 +118,7 @@ height: 26vh;
    margin-top: 20px;
    margin:  20px auto;
    padding: 10px;
+   width: 240px;
   }
   
   .profile-card .card .card-body a:focus{
@@ -131,6 +132,7 @@ height: 26vh;
     display: flex;
     text-align: center;
     margin: auto;
+    justify-items: end;
   }
  .vendorCard .card img{
 height: 36vh;
