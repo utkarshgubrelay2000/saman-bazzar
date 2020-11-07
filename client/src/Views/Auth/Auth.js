@@ -31,6 +31,7 @@ class Auth_modal extends Component{
    console.log(response);
   
    localStorage.setItem('token',response.data.succes)
+   this.props.history.push('/')
    if(response.data.error){
     this.setState({
       error:response.data.error

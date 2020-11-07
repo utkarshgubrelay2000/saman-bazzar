@@ -16,7 +16,7 @@ export default class VendorCard extends React.Component {
           src={this.props.Details.Imagesurl}
           alt="Card  cap"
         />
-        <div class="card-body">
+        <div className="card-body">
           <h6> 
           {this.props.Details.company || this.props.Details.Shop}
           </h6>

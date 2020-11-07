@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Modal, Accordion, Card } from "react-bootstrap";
 import { Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import Vendorcard from '../../components/vendorcard/vendorcard'
 class Admin extends Component {
   state = {
     show: false,
@@ -320,7 +319,7 @@ componentDidUpdate(){
             console.log(element);
             return(
 
-              <div className="card">
+              <div className="card" key={index}>
               <img src={element.Profile} className="card-img-top" alt=""/>
               <div className="card-body">
             <h5 className="card-title">{element.OwnerName}</h5>

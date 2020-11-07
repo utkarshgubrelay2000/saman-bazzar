@@ -52,10 +52,10 @@ console.log('jj')
          </div>
          <div className={`${styles.gridcontainer}`}>
        
-       {this.state.VendorCard.map(i=>{
+       {this.state.VendorCard.map((i,index)=>{
           return (
             
-            <VendorCard  Details={i}/>
+            <VendorCard  Details={i} key={index}/>
             )
        })}
         

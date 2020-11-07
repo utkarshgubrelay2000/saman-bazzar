@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import image from "../../assets/Images/image1-01.png";
 import image1 from "../../assets/Images/imag3-01.png";
 import image2 from "../../assets/Images/image2.png";
-import { Link } from "react-router-dom";
 import Footer from "../../components/footer/footer";
 import Main from '../../components/landingpage/main.jsx';
 class Home extends Component {
@@ -73,28 +72,7 @@ render() {
         <section id="hero">
           <Main/>
         </section>
-          <section id="home_subcribe" className="container">
-            <div className="home_div_subcribe">
-              <span>
-                <h4 className="home_span_Subcribe">
-                Lets start a new relationship 
-                </h4>
-                <h6 className='home_span_Subcribe'>
-                  by just sending a message
-                </h6>
-                <div>
-                  <button  
-                    className="cta-btn"
-                  >
-                    <Link to="/#">
-                    Send Message
-                    </Link>
-                  </button>
-                </div>
-              </span>
-            </div>
-          </section>
-        </div>
+       </div>
 
         <Footer/>
         <div className='text-center' style={{backgroundColor:'black',color:'white'}}>

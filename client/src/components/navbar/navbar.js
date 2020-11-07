@@ -14,7 +14,7 @@ class NavBar extends Component {
     this.setState({ show: true });
   };
   render() {
-  const token=localStorage.getItem("verficationuserId");
+  const token=localStorage.getItem("token");
     return (
       <React.Fragment>
         <div >
@@ -69,7 +69,11 @@ class NavBar extends Component {
                  </Link>
                    <button
                      className=" bg-light border-0"
-                     onClick={()=>localStorage.removeItem('verficationuserId')}
+                     onClick={()=>{
+
+                       localStorage.removeItem('token')
+                      this.props.history.push('/')
+                      }}
                    > <Link to='/' >
                      LogOut
                    </Link>
@@ -79,7 +83,7 @@ class NavBar extends Component {
                       className="dropdown-menu text-center"
                       aria-labelledby="dropdownMenuButton"
                     >
-                      <Link className="dropdown-item" to="/profile">
+                      <Link className="dropdown-item" to="mailto:utkarshgubrelay2000@gmail.com">
                         Send message
                       </Link>
                         <button

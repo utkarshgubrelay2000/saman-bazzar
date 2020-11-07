@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const key = require("../modules/key");
 const jwt=require('jsonwebtoken');
-const Shop = require("../modules/Shop");
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: key.auth,
@@ -89,15 +89,45 @@ CreatePost.find({}).then(newdata=>{
 }
 module.exports.DeleteUser=(req,res)=>{
   //console.log(req.body)
-  Shop.findOneAndDelete({_id:req.body.id}).then(data=>{
-Shop.find({}).then(newdata=>{
+  User.findOneAndDelete({_id:req.body.id}).then(data=>{
+User.find({}).then(newdata=>{
   res.json(newdata)
 })
   })
 }
 exports.GetParticularUser=(req,res)=>{
   const {id}= req.body
-  Shop.findOne({_id:id},{_id:0}).then(user=>{
+  User.findOne({_id:id},{_id:0}).then(user=>{
     res.json(user)
   })
+}
+exports.GetProductShop=(req,res)=>{
+  console.log(req.params.id)
+  const {id}=req.params
+  CreatePost.findOne({_id:id}).then(shop=>{
+  //  console.log(shop);
+  
+  CreatePost.aggregate([
+    {$group:{
+      _id:{userId:shop.userId},
+      allproducts:{$push:'$$ROOT'}
+    }}
+  ]).then(products=>{
+    console.log(products);
+    res.json(products)
+    
+  })
+
+  
+  })
+  
+}
+exports.GetRecommedProducts=(req,res)=>{
+
+  CreatePost.find({}).limit(4).sort({_id:-1}).then(rproducts=>{
+    res.json({recommdation:rproducts})
+  }).catch(err=>{
+    console.log(err)
+  })
+
 }
